@@ -38,7 +38,7 @@ import $ from "jquery"; // Import jQuery library
 
 import { ArrlistUserAction, ClientsearchtrquestUserAction, DatelistUserAction, GetContractDbFilterListUserAction, InvoicelistrequestUserAction, ViewContractDbUserAction, getCutomerTotalFilterUserAction, getCutomerTotalUserAction } from "../../redux/actions/UserDetailAction";
 
-const UserDetail = ({ index }) => {
+const UserDetail = () => {
   const CanvasJS = CanvasJSReact.CanvasJS;
   const CanvasJSChart = CanvasJSReact.CanvasJSChart;
   const dispatch = useDispatch();
@@ -912,9 +912,9 @@ const UserDetail = ({ index }) => {
     }
   }, [Arrlistdata]);
   const titleValue = (date) => {
-    
+
     setHoverTrue(true)
-    setIndexPending(index ? index : '')
+    setIndexPending(index)
     setHeadingPending(date)
     let names = [];
 
@@ -939,7 +939,6 @@ const UserDetail = ({ index }) => {
     setHoverPendingTrue(names)
     return Array.isArray(names) ? names.join(", ") : names;
   };
-
 
   const idvalue = (date) => {
     let id1 = [];
@@ -1502,29 +1501,11 @@ const UserDetail = ({ index }) => {
     }
   }, [searchrecord]);
 
-
   useEffect(() => {
     if (searcharrrecord) {
       setFilteredData(Clientarrsearchrecord?.data);
     }
   }, [searcharrrecord]);
-
-
-
-  useEffect(() => {
-    // Ensure the useEffect is always called and the logic is managed inside it
-    if (userID) {
-      if (pendingAdminrenewalrecord) {
-        setAllThePendingData(pendingAdminrenewalrecord);
-      }
-    } else {
-      if (pendingrenewalrecord) {
-        setAllThePendingData(pendingrenewalrecord);
-      }
-    }
-  }, [userID, pendingAdminrenewalrecord, pendingrenewalrecord]);
-
-
 
   const [timerId1, setTimerId1] = useState(null);
 
@@ -1764,7 +1745,13 @@ const UserDetail = ({ index }) => {
 
     return worksheet;
   };
-
+  useEffect(() => {
+    if (userID) {
+      setAllThePendingData(pendingAdminrenewalrecord)
+    } else if (!userID) {
+      setAllThePendingData(pendingrenewalrecord)
+    }
+  }, [userID,pendingAdminrenewalrecord,pendingrenewalrecord])
 
   const saveWorkbook = (workbook, filename) => {
     const excelBuffer = XLSX.write(workbook, {

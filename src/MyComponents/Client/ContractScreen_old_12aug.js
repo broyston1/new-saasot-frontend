@@ -117,9 +117,9 @@ const ContractScreen = ({ history }) => {
           if (revenue3) {
             formData.append("arr", revenue3);
           }
-          // if (revenue2) {
-          //   "revenue", revenue2;
-          // }
+          if (revenue2) {
+            "revenue", revenue2;
+          }
           formData.append("password", password);
 
           dispatch(ContractUpdateAction(formData, storeid));
